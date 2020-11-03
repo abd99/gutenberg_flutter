@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gutenberg_flutter/screens/home_page.dart';
 
+import 'screens/catalog_page.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -16,16 +18,22 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xFF5E56E7),
         canvasColor: Color(0xFFF8F7FF),
         cardColor: Color(0xFFFFFFFF),
-        appBarTheme: AppBarTheme(brightness: Brightness.light),
+        appBarTheme: AppBarTheme(
+          brightness: Brightness.light,
+        ),
         textTheme: TextTheme(
           headline1: GoogleFonts.montserrat(
             fontSize: 48,
             fontWeight: FontWeight.w700,
-            // letterSpacing: 2.5,
+            letterSpacing: 1,
             color: Color(0xFF5E56E7),
           ),
           headline2: GoogleFonts.montserrat(
-              fontSize: 61, fontWeight: FontWeight.w300, letterSpacing: -0.5),
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1,
+            color: Color(0xFF5E56E7),
+          ),
           headline3:
               GoogleFonts.montserrat(fontSize: 48, fontWeight: FontWeight.w400),
           headline4: GoogleFonts.montserrat(
@@ -50,7 +58,11 @@ class MyApp extends StatelessWidget {
               fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
         ),
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        HomePage.routeName: (context) => HomePage(),
+        CatalogPage.routeName: (context) => CatalogPage(),
+      },
+      initialRoute: HomePage.routeName,
     );
   }
 }

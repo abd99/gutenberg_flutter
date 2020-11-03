@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../screens/catalog_page.dart';
 
 class GenreCard extends StatelessWidget {
   final String genreName;
@@ -29,12 +30,17 @@ class GenreCard extends StatelessWidget {
           height: 30.0,
         ),
         title: Text(
-          genreName,
+          genreName.toUpperCase(),
           style: TextStyle(
             fontSize: 20.0,
           ),
         ),
         trailing: SvgPicture.asset('assets/Next.svg'),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CatalogPage(category: genreName)),
+        ),
       ),
     );
   }
