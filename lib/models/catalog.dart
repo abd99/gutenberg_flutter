@@ -5,7 +5,6 @@ const bookAPIUrl = 'http://gutendex.com/books/?mime_type=image%2Fjpeg';
 class CatalogModel {
   Future<dynamic> getBooks(String category) async {
     var url = '$bookAPIUrl&topic=$category';
-    print(url);
     NetworkHelper networkHelper = NetworkHelper(url);
     var catalogData = await networkHelper.getData();
     return catalogData;
@@ -14,7 +13,6 @@ class CatalogModel {
   Future<dynamic> searchBooks(String category, String searchQuery) async {
     List<String> list = searchQuery.split(' ');
     searchQuery = list.join('%20');
-    print(searchQuery);
     var url = '$bookAPIUrl&topic=$category&search=$searchQuery';
     NetworkHelper networkHelper = NetworkHelper(url);
     var catalogData = await networkHelper.getData();

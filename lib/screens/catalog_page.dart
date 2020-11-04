@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gutenberg_flutter/models/book.dart';
+import 'package:gutenberg_flutter/models/books.dart';
 import 'package:gutenberg_flutter/models/catalog.dart';
 import 'package:gutenberg_flutter/widgets/book_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CatalogPage extends StatefulWidget {
   static final routeName = '/catalog';
-
   final category;
 
   const CatalogPage({
@@ -28,8 +27,7 @@ class _CatalogPageState extends State<CatalogPage> {
   void searchBooks() async {
     var bookData =
         await catalogModel.getBooks(widget.category.toString().toLowerCase());
-    BookFetch booksFetched = BookFetch.fromJson(bookData);
-    print(booksFetched);
+    BooksModel booksFetched = BooksModel.fromJson(bookData);
     setState(() {
       results = booksFetched.results;
     });
@@ -38,8 +36,7 @@ class _CatalogPageState extends State<CatalogPage> {
   void searchQuery(String query) async {
     var bookData = await catalogModel.searchBooks(
         widget.category.toString().toLowerCase(), query);
-    BookFetch booksFetched = BookFetch.fromJson(bookData);
-    print(booksFetched);
+    BooksModel booksFetched = BooksModel.fromJson(bookData);
     setState(() {
       if (results.isEmpty) results = booksFetched.results;
     });

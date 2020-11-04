@@ -1,12 +1,12 @@
-class BookFetch {
+class BooksModel {
   int count;
   String next;
   Null previous;
   List<Results> results;
 
-  BookFetch({this.count, this.next, this.previous, this.results});
+  BooksModel({this.count, this.next, this.previous, this.results});
 
-  BookFetch.fromJson(Map<String, dynamic> json) {
+  BooksModel.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     next = json['next'];
     previous = json['previous'];
