@@ -1,11 +1,11 @@
 final List<String> genreNames = [
-  'FICTION',
-  'DRAMA',
-  'HUMOR',
-  'POLITICS',
-  'PHILOSOPHY',
-  'HISTORY',
-  'ADVENTURE',
+  'Fiction',
+  'Drama',
+  'Humor',
+  'Politics',
+  'Philosophy',
+  'History',
+  'Adventure',
 ];
 
 final List<String> genreIcons = [

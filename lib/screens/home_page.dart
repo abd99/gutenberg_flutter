@@ -5,6 +5,8 @@ import 'package:gutenberg_flutter/widgets/genre_card.dart';
 import '../constants.dart';
 
 class HomePage extends StatefulWidget {
+  static final routeName = '/home';
+
   HomePage({Key key, this.title}) : super(key: key);
 
   final String title;
