@@ -21,6 +21,8 @@ class CatalogPage extends StatefulWidget {
 class _CatalogPageState extends State<CatalogPage> {
   CatalogModel catalogModel = CatalogModel();
   List<Results> results = [];
+  String query = '';
+  TextEditingController controller = TextEditingController();
 
   void searchBooks() async {
     var bookData =
@@ -29,6 +31,16 @@ class _CatalogPageState extends State<CatalogPage> {
     print(booksFetched);
     setState(() {
       results = booksFetched.results;
+    });
+  }
+
+  void searchQuery(String query) async {
+    var bookData = await catalogModel.searchBooks(
+        widget.category.toString().toLowerCase(), query);
+    BookFetch booksFetched = BookFetch.fromJson(bookData);
+    print(booksFetched);
+    setState(() {
+      if (results.isEmpty) results = booksFetched.results;
     });
   }
 
@@ -63,6 +75,8 @@ class _CatalogPageState extends State<CatalogPage> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
+                  textInputAction: TextInputAction.search,
+                  controller: controller,
                   decoration: InputDecoration(
                     hintText: 'Search',
                     border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -77,11 +91,33 @@ class _CatalogPageState extends State<CatalogPage> {
                       'assets/Search.svg',
                       fit: BoxFit.none,
                     ),
-                    suffixIcon: SvgPicture.asset(
-                      'assets/Cancel.svg',
-                      fit: BoxFit.none,
-                    ),
+                    suffixIcon: query.isNotEmpty
+                        ? InkWell(
+                            child: SvgPicture.asset(
+                              'assets/Cancel.svg',
+                              fit: BoxFit.none,
+                            ),
+                            onTap: () {
+                              controller.clear();
+                              searchBooks();
+                            },
+                          )
+                        : null,
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      results.clear();
+                      query = value;
+                    });
+                    query.isEmpty ? searchBooks() : searchQuery(query);
+                  },
+                  onSubmitted: (value) {
+                    setState(() {
+                      results.clear();
+                      query = value;
+                    });
+                    query.isEmpty ? searchBooks() : searchQuery(query);
+                  },
                 ),
               ),
             ],
@@ -89,7 +125,7 @@ class _CatalogPageState extends State<CatalogPage> {
           preferredSize: Size.fromHeight(200),
         ),
       ),
-      body: results.length > 0
+      body: results.isNotEmpty
           ? GridView.builder(
               itemCount: results.length,
               padding: EdgeInsets.symmetric(
@@ -106,7 +142,7 @@ class _CatalogPageState extends State<CatalogPage> {
                 return BookCard(
                   // title: 'The old man and the sea',
                   title: results[index].title,
-                  author: results[index].authors.length > 0
+                  author: results[index].authors.isNotEmpty
                       ? results[index].authors[0].name
                       : '',
                   imgURL: results[index].formats.imageJpeg,
