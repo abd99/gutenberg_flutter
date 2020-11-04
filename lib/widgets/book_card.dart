@@ -41,8 +41,8 @@ class BookCard extends StatelessWidget {
           height: 4.0,
         ),
         Text(
-          author.length > 30
-              ? '${author.substring(0, 29).toUpperCase()}...'
+          author.length > 25
+              ? '${author.substring(0, 24).toUpperCase()}...'
               : author.toUpperCase(),
           style: TextStyle(
             fontSize: 12,
