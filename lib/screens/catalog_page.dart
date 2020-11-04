@@ -80,6 +80,9 @@ class _CatalogPageState extends State<CatalogPage> {
                   controller: controller,
                   decoration: InputDecoration(
                     hintText: 'Search',
+                    hintStyle: TextStyle(
+                      color: Color(0xFFA0A0A0),
+                    ),
                     border: OutlineInputBorder(borderSide: BorderSide.none),
                     focusedBorder: OutlineInputBorder(
                       borderSide:

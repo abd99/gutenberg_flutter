@@ -4,23 +4,18 @@ import 'package:gutenberg_flutter/widgets/genre_card.dart';
 
 import '../constants.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   static final routeName = '/home';
 
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({
+    Key key,
+  }) : super(key: key);
 
-  final String title;
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  List<GenreCard> genreCards = List<GenreCard>.generate(
-    genreNames.length,
+  final List<GenreCard> genreCards = List<GenreCard>.generate(
+    kGenreNames.length,
     (index) => GenreCard(
-      iconPath: genreIcons[index],
-      genreName: genreNames[index],
+      iconPath: kGenreIcons[index],
+      genreName: kGenreNames[index],
     ),
   );
 
@@ -54,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                       height: 16.0,
                     ),
                     Text(
-                      'A social cataloging website that allow you to freely search its database of books, annotations, and reviews.',
+                      kAppDescription,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ],
