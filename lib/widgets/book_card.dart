@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
+  final String title;
+  final String author;
+  final String imgURL;
   const BookCard({
     Key key,
+    this.title,
+    this.author,
+    this.imgURL,
   }) : super(key: key);
 
   @override
@@ -14,8 +20,8 @@ class BookCard extends StatelessWidget {
         Expanded(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              'assets/old-man-and-the-sea-review.jpg',
+            child: Image.network(
+              imgURL,
               fit: BoxFit.fill,
               width: 114,
               height: 162,
@@ -26,7 +32,7 @@ class BookCard extends StatelessWidget {
           height: 8.0,
         ),
         Text(
-          'The old man and the sea'.toUpperCase(),
+          title.toUpperCase(),
           style: TextStyle(
             fontSize: 12,
           ),
@@ -35,7 +41,7 @@ class BookCard extends StatelessWidget {
           height: 4.0,
         ),
         Text(
-          'Charles Dickens',
+          author,
           style: TextStyle(
             fontSize: 12,
             // fontWeight: FontWeight.w100,
