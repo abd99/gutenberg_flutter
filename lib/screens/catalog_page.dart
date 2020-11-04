@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gutenberg_flutter/models/books.dart';
-import 'package:gutenberg_flutter/models/catalog.dart';
+import 'package:gutenberg_flutter/services/catalog.dart';
 import 'package:gutenberg_flutter/widgets/book_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,14 +19,14 @@ class CatalogPage extends StatefulWidget {
 }
 
 class _CatalogPageState extends State<CatalogPage> {
-  CatalogModel catalogModel = CatalogModel();
+  CatalogService catalogService = CatalogService();
   List<Results> results = [];
   String query = '';
   TextEditingController controller = TextEditingController();
 
   void searchBooks() async {
     var bookData =
-        await catalogModel.getBooks(widget.category.toString().toLowerCase());
+        await catalogService.getBooks(widget.category.toString().toLowerCase());
     BooksModel booksFetched = BooksModel.fromJson(bookData);
     setState(() {
       results = booksFetched.results;
@@ -34,7 +34,7 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 
   void searchQuery(String query) async {
-    var bookData = await catalogModel.searchBooks(
+    var bookData = await catalogService.searchBooks(
         widget.category.toString().toLowerCase(), query);
     BooksModel booksFetched = BooksModel.fromJson(bookData);
     setState(() {
