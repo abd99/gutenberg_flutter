@@ -123,7 +123,7 @@ class _CatalogPageState extends State<CatalogPage> {
               ),
             ],
           ),
-          preferredSize: Size.fromHeight(200),
+          preferredSize: Size.fromHeight(175),
         ),
       ),
       body: results.isNotEmpty
