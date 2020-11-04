@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gutenberg_flutter/models/book.dart';
 import 'package:gutenberg_flutter/models/catalog.dart';
 import 'package:gutenberg_flutter/widgets/book_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CatalogPage extends StatefulWidget {
   static final routeName = '/catalog';
@@ -139,19 +140,65 @@ class _CatalogPageState extends State<CatalogPage> {
                 crossAxisSpacing: 16.0,
               ),
               itemBuilder: (context, index) {
-                return BookCard(
-                  // title: 'The old man and the sea',
-                  title: results[index].title,
-                  author: results[index].authors.isNotEmpty
-                      ? results[index].authors[0].name
-                      : '',
-                  imgURL: results[index].formats.imageJpeg,
+                return InkWell(
+                  child: BookCard(
+                    title: results[index].title,
+                    author: results[index].authors.isNotEmpty
+                        ? results[index].authors[0].name
+                        : '',
+                    imgURL: results[index].formats.imageJpeg,
+                  ),
+                  onTap: () {
+                    Formats formats = results[index].formats;
+                    showBook(formats);
+                  },
                 );
               },
             )
           : Center(
               child: CircularProgressIndicator(),
             ),
+    );
+  }
+
+  void showBook(Formats formats) {
+    if (formats.textHtml != null)
+      launch(formats.textHtml);
+    else if (formats.textHtmlCharsetIso88591 != null)
+      launch(formats.textHtmlCharsetIso88591);
+    else if (formats.textHtmlCharsetUsAscii != null)
+      launch(formats.textHtmlCharsetUsAscii);
+    else if (formats.textHtmlCharsetUtf8 != null)
+      launch(formats.textHtmlCharsetUtf8);
+    else if (formats.applicationPdf != null)
+      launch(formats.applicationPdf);
+    else if (formats.textPlain != null)
+      launch(formats.textPlain);
+    else if (formats.textPlainCharsetIso88591 = null)
+      launch(formats.textPlainCharsetIso88591);
+    else if (formats.textPlainCharsetUsAscii != null)
+      launch(formats.textPlainCharsetUsAscii);
+    else
+      _showMyDialog();
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('No viewable version available'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
