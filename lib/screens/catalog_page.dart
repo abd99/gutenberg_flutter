@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gutenberg_flutter/models/book.dart';
+import 'package:gutenberg_flutter/models/catalog.dart';
 import 'package:gutenberg_flutter/widgets/book_card.dart';
 
 class CatalogPage extends StatefulWidget {
@@ -17,6 +19,25 @@ class CatalogPage extends StatefulWidget {
 }
 
 class _CatalogPageState extends State<CatalogPage> {
+  CatalogModel catalogModel = CatalogModel();
+  List<Results> results = [];
+
+  void searchBooks() async {
+    var bookData =
+        await catalogModel.getBooks(widget.category.toString().toLowerCase());
+    BookFetch booksFetched = BookFetch.fromJson(bookData);
+    print(booksFetched);
+    setState(() {
+      results = booksFetched.results;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    searchBooks();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +51,10 @@ class _CatalogPageState extends State<CatalogPage> {
           child: Column(
             children: [
               ListTile(
-                leading: SvgPicture.asset('assets/Back.svg'),
+                leading: InkWell(
+                  child: SvgPicture.asset('assets/Back.svg'),
+                  onTap: () => Navigator.pop(context),
+                ),
                 title: Text(
                   widget.category,
                   style: Theme.of(context).textTheme.headline2,
@@ -65,20 +89,33 @@ class _CatalogPageState extends State<CatalogPage> {
           preferredSize: Size.fromHeight(200),
         ),
       ),
-      body: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: (114 / (162 + 45)),
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 16.0,
-        ),
-        mainAxisSpacing: 16.0,
-        crossAxisSpacing: 16.0,
-        children: List.generate(
-          15,
-          (index) => BookCard(),
-        ),
-      ),
+      body: results.length > 0
+          ? GridView.builder(
+              itemCount: results.length,
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 16.0,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: (114 / (162 + 75)),
+                mainAxisSpacing: 16.0,
+                crossAxisSpacing: 16.0,
+              ),
+              itemBuilder: (context, index) {
+                return BookCard(
+                  // title: 'The old man and the sea',
+                  title: results[index].title,
+                  author: results[index].authors.length > 0
+                      ? results[index].authors[0].name
+                      : '',
+                  imgURL: results[index].formats.imageJpeg,
+                );
+              },
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 }

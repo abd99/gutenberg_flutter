@@ -17,22 +17,22 @@ class BookCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(
-              imgURL,
-              fit: BoxFit.fill,
-              width: 114,
-              height: 162,
-            ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.network(
+            imgURL,
+            fit: BoxFit.fill,
+            width: 114,
+            height: 162,
           ),
         ),
         SizedBox(
           height: 8.0,
         ),
         Text(
-          title.toUpperCase(),
+          title.length > 30
+              ? '${title.substring(0, 29).toUpperCase()}...'
+              : title.toUpperCase(),
           style: TextStyle(
             fontSize: 12,
           ),
@@ -41,7 +41,9 @@ class BookCard extends StatelessWidget {
           height: 4.0,
         ),
         Text(
-          author,
+          author.length > 30
+              ? '${author.substring(0, 29).toUpperCase()}...'
+              : author.toUpperCase(),
           style: TextStyle(
             fontSize: 12,
             // fontWeight: FontWeight.w100,
