@@ -135,7 +135,7 @@ class _CatalogPageState extends State<CatalogPage> {
               ),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: (114 / (162 + 75)),
+                childAspectRatio: (114 / (162 + 105)),
                 mainAxisSpacing: 16.0,
                 crossAxisSpacing: 16.0,
               ),

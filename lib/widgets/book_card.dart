@@ -13,44 +13,46 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.network(
-            imgURL,
-            fit: BoxFit.fill,
-            width: 114,
-            height: 162,
+    return GridTile(
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            clipBehavior: Clip.antiAlias,
+            child: Image.network(
+              imgURL,
+              fit: BoxFit.fill,
+              width: 114,
+              height: 162,
+            ),
           ),
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Text(
-          title.length > 30
-              ? '${title.substring(0, 29).toUpperCase()}...'
-              : title.toUpperCase(),
-          style: TextStyle(
-            fontSize: 12,
+          SizedBox(
+            height: 8.0,
           ),
-        ),
-        SizedBox(
-          height: 4.0,
-        ),
-        Text(
-          author.length > 25
-              ? '${author.substring(0, 24).toUpperCase()}...'
-              : author.toUpperCase(),
-          style: TextStyle(
-            fontSize: 12,
-            // fontWeight: FontWeight.w100,
-            color: Color(0xFFA0A0A0),
+          Text(
+            title.toUpperCase(),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+            ),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 4.0,
+          ),
+          Text(
+            author.toUpperCase(),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              // fontWeight: FontWeight.w100,
+              color: Color(0xFFA0A0A0),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
