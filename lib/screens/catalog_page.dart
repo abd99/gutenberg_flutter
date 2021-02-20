@@ -127,30 +127,37 @@ class _CatalogPageState extends State<CatalogPage> {
         ),
       ),
       body: results.isNotEmpty
-          ? GridView.builder(
-              itemCount: results.length,
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 16.0,
-              ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: (114 / (162 + 105)),
-                mainAxisSpacing: 16.0,
-                crossAxisSpacing: 16.0,
-              ),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  child: BookCard(
-                    title: results[index].title,
-                    author: results[index].authors.isNotEmpty
-                        ? results[index].authors[0].name
-                        : '',
-                    imgURL: results[index].formats.imageJpeg,
+          ? LayoutBuilder(
+              builder: (context, constraints) {
+                var maxHeight = constraints.maxHeight;
+                print(constraints.maxHeight);
+                return GridView.builder(
+                  itemCount: results.length,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 16.0,
                   ),
-                  onTap: () {
-                    Formats formats = results[index].formats;
-                    showBook(formats);
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio:
+                        (114 / (162 + (maxHeight > 700 ? 65 : 105))),
+                    mainAxisSpacing: 16.0,
+                    crossAxisSpacing: 16.0,
+                  ),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      child: BookCard(
+                        title: results[index].title,
+                        author: results[index].authors.isNotEmpty
+                            ? results[index].authors[0].name
+                            : '',
+                        imgURL: results[index].formats.imageJpeg,
+                      ),
+                      onTap: () {
+                        Formats formats = results[index].formats;
+                        showBook(formats);
+                      },
+                    );
                   },
                 );
               },
